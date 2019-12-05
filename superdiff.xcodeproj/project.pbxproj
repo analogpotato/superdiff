@@ -16,6 +16,10 @@
 		CF837578239973B800571247 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF837576239973B800571247 /* LaunchScreen.storyboard */; };
 		CF837583239973B800571247 /* superdiffTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF837582239973B800571247 /* superdiffTests.swift */; };
 		CF83758E239973B800571247 /* superdiffUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF83758D239973B800571247 /* superdiffUITests.swift */; };
+		CF83759C2399744500571247 /* CollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF83759B2399744500571247 /* CollectionViewController.swift */; };
+		CF83759E2399746D00571247 /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF83759D2399746D00571247 /* CollectionViewCell.swift */; };
+		CF8375A02399748700571247 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF83759F2399748700571247 /* User.swift */; };
+		CF8375A2239974DB00571247 /* Alert Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8375A1239974DB00571247 /* Alert Service.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +55,10 @@
 		CF837589239973B800571247 /* superdiffUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = superdiffUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CF83758D239973B800571247 /* superdiffUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = superdiffUITests.swift; sourceTree = "<group>"; };
 		CF83758F239973B800571247 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CF83759B2399744500571247 /* CollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewController.swift; sourceTree = "<group>"; };
+		CF83759D2399746D00571247 /* CollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
+		CF83759F2399748700571247 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		CF8375A1239974DB00571247 /* Alert Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Alert Service.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,6 +113,10 @@
 				CF83756A239973B700571247 /* SceneDelegate.swift */,
 				CF83756C239973B700571247 /* ViewController.swift */,
 				CF83756E239973B700571247 /* Main.storyboard */,
+				CF83759F2399748700571247 /* User.swift */,
+				CF8375A1239974DB00571247 /* Alert Service.swift */,
+				CF83759D2399746D00571247 /* CollectionViewCell.swift */,
+				CF83759B2399744500571247 /* CollectionViewController.swift */,
 				CF837574239973B800571247 /* Assets.xcassets */,
 				CF837576239973B800571247 /* LaunchScreen.storyboard */,
 				CF837579239973B800571247 /* Info.plist */,
@@ -264,8 +276,12 @@
 			files = (
 				CF83756D239973B700571247 /* ViewController.swift in Sources */,
 				CF837569239973B700571247 /* AppDelegate.swift in Sources */,
+				CF83759E2399746D00571247 /* CollectionViewCell.swift in Sources */,
 				CF837573239973B700571247 /* superdiff.xcdatamodeld in Sources */,
 				CF83756B239973B700571247 /* SceneDelegate.swift in Sources */,
+				CF83759C2399744500571247 /* CollectionViewController.swift in Sources */,
+				CF8375A02399748700571247 /* User.swift in Sources */,
+				CF8375A2239974DB00571247 /* Alert Service.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
