@@ -58,16 +58,32 @@ class CollectionViewController: UICollectionViewController {
     
     
     @IBAction func addButton(_ sender: Any) {
-        let alert = alertService.createUserAlert { [weak self] name in
-                
-                self?.addNewUser(with: name)
-               }
-               present(alert, animated: true)
+//        let alert = alertService.createUserAlert { [weak self] name in
+//
+//                self?.addNewUser(with: name)
+//               }
+//               present(alert, animated: true)
     }
 
+    
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let user = dataSource.itemIdentifier(for: indexPath) else {return}
+        print(user)
+        
+        
+    }
+    
+    
+    
+//    
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        if segue.identifier == "AddView", let addView = segue.destination as? ViewController {
+//          
+//        }
+//    }
+    
+    
 }
-
-
 extension CollectionViewController {
     enum Section {
         case main

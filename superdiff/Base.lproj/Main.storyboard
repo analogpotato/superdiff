@@ -3,6 +3,7 @@
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -52,7 +53,7 @@
                     <navigationItem key="navigationItem" id="Sbz-Cq-KDx">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="xVO-Bo-zJ8">
                             <connections>
-                                <action selector="addButton:" destination="1aG-xz-XKk" id="1Pw-Rw-3Kj"/>
+                                <segue destination="a2W-od-eKz" kind="presentation" id="M0G-RQ-lQ5"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -60,6 +61,38 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yAl-Rt-cY1" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1413.0434782608697" y="136.60714285714286"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="yW1-G7-jN0">
+            <objects>
+                <viewController id="Hs8-ap-Ggk" customClass="ViewController" customModule="superdiff" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="xKA-EF-NpJ">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="8Qr-IJ-LXo">
+                                <rect key="frame" x="20" y="404" width="374" height="34"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <action selector="saveButton:" destination="Hs8-ap-Ggk" eventType="editingDidEnd" id="iiO-Ye-K1K"/>
+                                </connections>
+                            </textField>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="Tle-VD-DzQ"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="YKR-LQ-8b5">
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="DWh-dz-VJn"/>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="addTextField" destination="8Qr-IJ-LXo" id="Di1-V5-9io"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="WsG-gN-qD3" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3395.652173913044" y="124.55357142857142"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="QK8-ss-dGU">
@@ -78,6 +111,24 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="moe-ut-wX4" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="502.89855072463774" y="136.60714285714286"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="0Vq-2w-YlP">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="a2W-od-eKz" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="0ZP-EJ-tHU">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="56"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="Hs8-ap-Ggk" kind="relationship" relationship="rootViewController" id="deD-5D-CpC"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="WbZ-CC-Xhx" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2485.507246376812" y="124.55357142857142"/>
         </scene>
     </scenes>
 </document>
