@@ -7,26 +7,35 @@
 //
 
 import UIKit
+import CoreData
 
 private let reuseIdentifier = "Cell"
 
-class CollectionViewController: UICollectionViewController {
+class CollectionViewController: UICollectionViewController, NSFetchedResultsControllerDelegate {
     
     let alertService = AlertService()
     
-    var users = [User]()
+    var users: [Test] = []
     
-    var dataSource: UICollectionViewDiffableDataSource<Section, User>!
+    var dataSource: UICollectionViewDiffableDataSource<Section, Test>!
+    var diffableDataSourceSnapshot = NSDiffableDataSourceSnapshot<Section, Test> ()
+    
+    var container = NSPersistentContainer (name: "superdiff")
+    var fetchedResultsController: NSFetchedResultsController<Test>!
+    
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         configureDataSource()
+        setupCoreData()
+        setupFetchedResultsController()
     }
     
     
     func configureDataSource() {
-        dataSource = UICollectionViewDiffableDataSource<Section, User> (collectionView: collectionView) { (collectionView, indexPath, user) -> UICollectionViewCell in
+        dataSource = UICollectionViewDiffableDataSource<Section, Test> (collectionView: collectionView) { (collectionView, indexPath, user) -> UICollectionViewCell in
             
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as? CollectionViewCell else {
                 fatalError ("Cannot create cell")
@@ -38,23 +47,78 @@ class CollectionViewController: UICollectionViewController {
             
             return cell
         }
+        setupSnapshot()
     }
     
     
     func addNewUser(with name: String, with subtitle: String) {
-        let user = User(name: name, subtitle: subtitle)
+        let user = Test(context: container.viewContext)
+        
+        user.name = name
+        user.subtitle = subtitle
+        
         users.append(user)
         print(users)
-        
-        createSnapshot(from: users)
+        setupSnapshot()
     }
     
-    func createSnapshot (from users: [User]) {
-        var snapshot = NSDiffableDataSourceSnapshot<Section, User>()
+    
+    func setupSnapshot() {
+        diffableDataSourceSnapshot = NSDiffableDataSourceSnapshot<Section, Test>()
+        diffableDataSourceSnapshot.appendSections([.main])
+        diffableDataSourceSnapshot.appendItems(users)
+        dataSource?.apply(self.diffableDataSourceSnapshot)
+    }
+    
+//    func createSnapshot (from users: [User]) {
+//        var snapshot = NSDiffableDataSourceSnapshot<Section, Test>()
+//        snapshot.appendSections([.main])
+//        snapshot.appendItems(users)
+//        dataSource.apply(snapshot, animatingDifferences: true)
+//    }
+    
+    func setupCoreData() {
+        container.loadPersistentStores { storeDescription, error in
+            self.container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+            if let error = error {
+                print ("Failed to load database: \(error)")
+            }
+        }
+    }
+    
+    
+    func setupFetchedResultsController() {
+        let request = Test.createfetchRequest()
+        request.fetchBatchSize = 30
         
-        snapshot.appendSections([.main])
-        snapshot.appendItems(users)
-        dataSource.apply(snapshot, animatingDifferences: true)
+        let sort = NSSortDescriptor (key: "name", ascending: true)
+        request.sortDescriptors = [sort]
+        
+        fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: container.viewContext, sectionNameKeyPath: nil, cacheName: nil)
+        fetchedResultsController.delegate = self
+        
+        do {
+            try fetchedResultsController.performFetch()
+            setupSnapshot()
+        } catch {
+            print ("Fetch failed")
+        }
+        
+        
+    }
+    
+    func saveChangesToDisk () {
+        guard container.viewContext.hasChanges else { return }
+        
+        do {
+            try container.viewContext.save()
+        } catch {
+            print ("Failed to save changes to disk: \(error)")
+        }
+    }
+    
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        setupSnapshot()
     }
     
     

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 class ViewController: UIViewController, UIAdaptivePresentationControllerDelegate {
 
@@ -23,21 +24,21 @@ class ViewController: UIViewController, UIAdaptivePresentationControllerDelegate
     }
 
     @IBAction func saveButtonPress(_ sender: Any) {
-        updateDataSource(with: addTextField.text!)
+//        updateDataSource(with: addTextField.text!)
         vc.addNewUser(with: addTextField.text!, with: subtitleText.text!)
              dismiss(animated: true, completion: nil)
         
     }
 
     
-    func updateDataSource(with name: String) {
-        var snapshot = NSDiffableDataSourceSnapshot<CollectionViewController.Section, User>()
-        snapshot.appendSections([.main])
-        snapshot.appendItems(vc.users)
-        vc.dataSource.apply(snapshot, animatingDifferences: true)
-    
-        
-    }
+//    func updateDataSource(with name: String) {
+//        var snapshot = NSDiffableDataSourceSnapshot<CollectionViewController.Section, User>()
+//        snapshot.appendSections([.main])
+//        snapshot.appendItems(vc.users)
+//        vc.dataSource.apply(snapshot, animatingDifferences: true)
+//    
+//        
+//    }
     
 
 }
