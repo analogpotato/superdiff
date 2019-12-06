@@ -12,6 +12,6 @@ class CollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var userText: UILabel!
     
-    
+    @IBOutlet weak var subtitleText: UILabel!
     
 }

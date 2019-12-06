@@ -11,7 +11,8 @@ import UIKit
 class ViewController: UIViewController, UIAdaptivePresentationControllerDelegate {
 
     @IBOutlet weak var addTextField: UITextField!
-
+    @IBOutlet weak var subtitleText: UITextField!
+    
     weak var vc: CollectionViewController!
     
     override func viewDidLoad() {
@@ -23,7 +24,7 @@ class ViewController: UIViewController, UIAdaptivePresentationControllerDelegate
 
     @IBAction func saveButtonPress(_ sender: Any) {
         updateDataSource(with: addTextField.text!)
-             vc.addNewUser(with: addTextField.text!)
+        vc.addNewUser(with: addTextField.text!, with: subtitleText.text!)
              dismiss(animated: true, completion: nil)
         
     }

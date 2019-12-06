@@ -33,6 +33,7 @@ class CollectionViewController: UICollectionViewController {
             }
             
             cell.userText.text = user.name
+            cell.subtitleText.text = user.subtitle
             
             
             return cell
@@ -40,8 +41,8 @@ class CollectionViewController: UICollectionViewController {
     }
     
     
-    func addNewUser(with name: String) {
-        let user = User(name: name)
+    func addNewUser(with name: String, with subtitle: String) {
+        let user = User(name: name, subtitle: subtitle)
         users.append(user)
         print(users)
         
