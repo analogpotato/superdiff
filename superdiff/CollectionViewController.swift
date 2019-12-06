@@ -75,12 +75,12 @@ class CollectionViewController: UICollectionViewController {
     
     
     
-//    
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        if segue.identifier == "AddView", let addView = segue.destination as? ViewController {
-//          
-//        }
-//    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "AddView", let navigationController = segue.destination as? UINavigationController, let viewController = navigationController.children.first as? ViewController {
+            viewController.vc = self
+        }
+    }
     
     
 }

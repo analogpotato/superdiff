@@ -12,7 +12,7 @@ class ViewController: UIViewController {
 
     @IBOutlet weak var addTextField: UITextField!
 
-   let vc = CollectionViewController()
+    weak var vc: CollectionViewController!
     
     override func viewDidLoad() {
         super.viewDidLoad()
