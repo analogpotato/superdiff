@@ -26,6 +26,7 @@ class ViewController: UIViewController, UIAdaptivePresentationControllerDelegate
     @IBAction func saveButtonPress(_ sender: Any) {
 //        updateDataSource(with: addTextField.text!)
         vc.addNewUser(with: addTextField.text!, with: subtitleText.text!)
+        vc.setupSnapshot()
              dismiss(animated: true, completion: nil)
         
     }

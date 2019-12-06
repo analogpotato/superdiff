@@ -59,6 +59,7 @@ class CollectionViewController: UICollectionViewController, NSFetchedResultsCont
         
         users.append(user)
         print(users)
+        print([Test]())
         setupSnapshot()
     }
     
