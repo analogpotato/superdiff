@@ -75,19 +75,20 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
-                                <connections>
-                                    <action selector="saveButton:" destination="Hs8-ap-Ggk" eventType="editingDidEnd" id="iiO-Ye-K1K"/>
-                                </connections>
                             </textField>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="Tle-VD-DzQ"/>
                     </view>
                     <navigationItem key="navigationItem" id="YKR-LQ-8b5">
-                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="DWh-dz-VJn"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="DWh-dz-VJn">
+                            <connections>
+                                <action selector="saveButtonPress:" destination="Hs8-ap-Ggk" id="dMJ-bT-TU8"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="addTextField" destination="8Qr-IJ-LXo" id="Di1-V5-9io"/>
+                        <outlet property="addTextField" destination="8Qr-IJ-LXo" id="Guw-bX-T0q"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WsG-gN-qD3" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

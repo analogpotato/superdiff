@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UIAdaptivePresentationControllerDelegate {
 
     @IBOutlet weak var addTextField: UITextField!
 
@@ -16,13 +16,18 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-       
+        
+        presentationController?.delegate = self
+        
     }
 
-    @IBAction func saveButton(_ sender: Any) {
+    @IBAction func saveButtonPress(_ sender: Any) {
         updateDataSource(with: addTextField.text!)
-        self.dismiss(animated: true, completion: nil)
+             vc.addNewUser(with: addTextField.text!)
+             dismiss(animated: true, completion: nil)
+        
     }
+
     
     func updateDataSource(with name: String) {
         var snapshot = NSDiffableDataSourceSnapshot<CollectionViewController.Section, User>()
