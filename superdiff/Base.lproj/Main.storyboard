@@ -95,6 +95,11 @@
                         <viewLayoutGuide key="safeArea" id="Tle-VD-DzQ"/>
                     </view>
                     <navigationItem key="navigationItem" id="YKR-LQ-8b5">
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="Q5u-AV-Ola">
+                            <connections>
+                                <action selector="cancelButton:" destination="Hs8-ap-Ggk" id="J5x-pb-1Ho"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="save" id="DWh-dz-VJn">
                             <connections>
                                 <action selector="saveButtonPress:" destination="Hs8-ap-Ggk" id="dMJ-bT-TU8"/>

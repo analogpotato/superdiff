@@ -24,13 +24,16 @@ class ViewController: UIViewController, UIAdaptivePresentationControllerDelegate
     }
 
     @IBAction func saveButtonPress(_ sender: Any) {
-//        updateDataSource(with: addTextField.text!)
         vc.addNewUser(with: addTextField.text!, with: subtitleText.text!)
         vc.setupSnapshot()
              dismiss(animated: true, completion: nil)
         
     }
 
+    @IBAction func cancelButton(_ sender: Any) {
+        dismiss(animated: true, completion: nil)
+        
+    }
     
 //    func updateDataSource(with name: String) {
 //        var snapshot = NSDiffableDataSourceSnapshot<CollectionViewController.Section, User>()

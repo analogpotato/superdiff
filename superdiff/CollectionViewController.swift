@@ -15,7 +15,7 @@ class CollectionViewController: UICollectionViewController, NSFetchedResultsCont
     
     let alertService = AlertService()
     
-    var users: [Test] = []
+    var users = [Test]()
     
     var dataSource: UICollectionViewDiffableDataSource<Section, Test>!
     var diffableDataSourceSnapshot = NSDiffableDataSourceSnapshot<Section, Test> ()
@@ -31,6 +31,8 @@ class CollectionViewController: UICollectionViewController, NSFetchedResultsCont
         configureDataSource()
         setupCoreData()
         setupFetchedResultsController()
+        
+        print(users)
     }
     
     
@@ -59,8 +61,9 @@ class CollectionViewController: UICollectionViewController, NSFetchedResultsCont
         
         users.append(user)
         print(users)
-        print([Test]())
+
         setupSnapshot()
+        saveChangesToDisk()
     }
     
     
@@ -113,6 +116,7 @@ class CollectionViewController: UICollectionViewController, NSFetchedResultsCont
         
         do {
             try container.viewContext.save()
+            print("saved")
         } catch {
             print ("Failed to save changes to disk: \(error)")
         }
