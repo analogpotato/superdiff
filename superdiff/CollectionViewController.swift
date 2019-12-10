@@ -15,7 +15,7 @@ class CollectionViewController: UICollectionViewController, NSFetchedResultsCont
     
     let alertService = AlertService()
     
-    var users = [Test]()
+    var users: [Test] = []
     
     var dataSource: UICollectionViewDiffableDataSource<Section, Test>!
     var diffableDataSourceSnapshot = NSDiffableDataSourceSnapshot<Section, Test> ()
@@ -31,6 +31,20 @@ class CollectionViewController: UICollectionViewController, NSFetchedResultsCont
         configureDataSource()
         setupCoreData()
         setupFetchedResultsController()
+        
+//        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+//            return
+//        }
+        let managedContext = container.viewContext
+        let fetchRequest = NSFetchRequest<Test>(entityName: "Test")
+        
+        do {
+            users = try managedContext.fetch(fetchRequest)
+//            saveChangesToDisk()
+            setupSnapshot()
+        } catch {
+            print("fetch failed")
+        }
         
         print(users)
     }
@@ -60,7 +74,7 @@ class CollectionViewController: UICollectionViewController, NSFetchedResultsCont
         user.subtitle = subtitle
         
         users.append(user)
-        print(users)
+//        print(user)
 
         setupSnapshot()
         saveChangesToDisk()
@@ -116,7 +130,7 @@ class CollectionViewController: UICollectionViewController, NSFetchedResultsCont
         
         do {
             try container.viewContext.save()
-            print("saved")
+//            print("saved \(users)")
         } catch {
             print ("Failed to save changes to disk: \(error)")
         }
@@ -160,3 +174,6 @@ extension CollectionViewController {
         case main
     }
 }
+
+
+

@@ -26,6 +26,7 @@ class ViewController: UIViewController, UIAdaptivePresentationControllerDelegate
     @IBAction func saveButtonPress(_ sender: Any) {
         vc.addNewUser(with: addTextField.text!, with: subtitleText.text!)
         vc.setupSnapshot()
+        print("\(vc.users) This is the list")
              dismiss(animated: true, completion: nil)
         
     }
