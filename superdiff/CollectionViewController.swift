@@ -23,6 +23,7 @@ class CollectionViewController: UICollectionViewController, NSFetchedResultsCont
     var container = NSPersistentContainer (name: "superdiff")
     var fetchedResultsController: NSFetchedResultsController<Test>!
     
+    @IBOutlet weak var deleteButton: UIBarButtonItem!
     
 
     override func viewDidLoad() {
@@ -32,6 +33,7 @@ class CollectionViewController: UICollectionViewController, NSFetchedResultsCont
         setupCoreData()
         setupFetchedResultsController()
         
+        navigationItem.leftBarButtonItem = editButtonItem
 //        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
 //            return
 //        }
@@ -60,10 +62,34 @@ class CollectionViewController: UICollectionViewController, NSFetchedResultsCont
             cell.userText.text = user.name
             cell.subtitleText.text = user.subtitle
             
+            cell.isInEditingMode = self.isEditing
             
             return cell
         }
         setupSnapshot()
+    }
+    @IBAction func deleteButtonPressed(_ sender: Any) {
+    }
+
+
+    
+    
+    override func setEditing(_ editing: Bool, animated: Bool) {
+        super.setEditing(editing, animated: animated)
+        
+        collectionView.allowsMultipleSelection = editing
+        let indexPaths = collectionView.indexPathsForVisibleItems
+        for indexPath in indexPaths {
+            let cell = collectionView.cellForItem(at: indexPath) as! CollectionViewCell
+            cell.isInEditingMode = editing
+            
+            if !isEditing {
+                deleteButton.isEnabled = false
+            } else {
+                deleteButton.isEnabled = true
+            }
+        }
+        
     }
     
     
@@ -141,22 +167,22 @@ class CollectionViewController: UICollectionViewController, NSFetchedResultsCont
     }
     
     
-    @IBAction func addButton(_ sender: Any) {
-//        let alert = alertService.createUserAlert { [weak self] name in
-//
-//                self?.addNewUser(with: name)
-//               }
-//               present(alert, animated: true)
-    }
-
-    
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let user = dataSource.itemIdentifier(for: indexPath) else {return}
-        print(user)
-        
-        
+        if !isEditing != true {
+
+            if let deleteItems = dataSource.itemIdentifier(for: indexPath) {
+
+                var currentSnapshot = dataSource.snapshot()
+                currentSnapshot.deleteItems([deleteItems])
+                dataSource.apply(currentSnapshot)
+                print(deleteItems)
+
+
+            }
+        } else {
+            return
+        }
     }
-    
     
     
     
@@ -173,7 +199,13 @@ extension CollectionViewController {
     enum Section {
         case main
     }
+    func remove(_ item: [Test], animate: Bool = true) {
+        var snapshot = dataSource.snapshot()
+        snapshot.deleteItems(users)
+        dataSource.apply(snapshot, animatingDifferences: animate)
+    }
 }
+
 
 
 

@@ -44,10 +44,18 @@
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gUB-Jr-Tx5">
+                                            <rect key="frame" x="58" y="71" width="34" height="21"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
                                     </subviews>
                                 </collectionViewCellContentView>
                                 <color key="backgroundColor" systemColor="secondarySystemBackgroundColor" red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <connections>
+                                    <outlet property="checkmarkLabel" destination="gUB-Jr-Tx5" id="bzB-gP-D3l"/>
                                     <outlet property="subtitleText" destination="1ws-Ae-sKD" id="xCs-vI-7UO"/>
                                     <outlet property="userText" destination="wrC-Wx-Bow" id="UcN-eG-maT"/>
                                 </connections>
@@ -59,12 +67,23 @@
                         </connections>
                     </collectionView>
                     <navigationItem key="navigationItem" id="Sbz-Cq-KDx">
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="xVO-Bo-zJ8">
-                            <connections>
-                                <segue destination="a2W-od-eKz" kind="presentation" identifier="AddView" id="M0G-RQ-lQ5"/>
-                            </connections>
-                        </barButtonItem>
+                        <rightBarButtonItems>
+                            <barButtonItem systemItem="add" id="xVO-Bo-zJ8">
+                                <connections>
+                                    <segue destination="a2W-od-eKz" kind="presentation" identifier="AddView" id="M0G-RQ-lQ5"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem systemItem="trash" id="Iv0-Hd-43P">
+                                <color key="tintColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <connections>
+                                    <action selector="deleteButtonPressed:" destination="1aG-xz-XKk" id="aD0-uJ-mxn"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
                     </navigationItem>
+                    <connections>
+                        <outlet property="deleteButton" destination="Iv0-Hd-43P" id="8Da-YQ-Lt6"/>
+                    </connections>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yAl-Rt-cY1" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
