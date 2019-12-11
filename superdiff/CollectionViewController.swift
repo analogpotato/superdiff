@@ -11,7 +11,7 @@ import CoreData
 
 private let reuseIdentifier = "Cell"
 
-class CollectionViewController: UICollectionViewController, NSFetchedResultsControllerDelegate {
+class CollectionViewController: UICollectionViewController, NSFetchedResultsControllerDelegate, UISearchResultsUpdating {
     
     let alertService = AlertService()
     
@@ -25,6 +25,7 @@ class CollectionViewController: UICollectionViewController, NSFetchedResultsCont
     
     @IBOutlet weak var deleteButton: UIBarButtonItem!
     
+    var currentSearchText = ""
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,6 +33,8 @@ class CollectionViewController: UICollectionViewController, NSFetchedResultsCont
         configureDataSource()
         setupCoreData()
         setupFetchedResultsController()
+        
+        setupSearchController()
         
         navigationItem.leftBarButtonItem = editButtonItem
 //        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
@@ -136,6 +139,10 @@ class CollectionViewController: UICollectionViewController, NSFetchedResultsCont
         let request = Test.createfetchRequest()
         request.fetchBatchSize = 30
         
+        if !currentSearchText.isEmpty {
+            request.predicate = NSPredicate(format: "name CONTAINS[c] %@", currentSearchText)
+        }
+        
         let sort = NSSortDescriptor (key: "name", ascending: true)
         request.sortDescriptors = [sort]
         
@@ -167,6 +174,7 @@ class CollectionViewController: UICollectionViewController, NSFetchedResultsCont
         setupSnapshot()
     }
     
+    //MARK: Delete section (needs work - move to button)
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if !isEditing != true {
@@ -195,6 +203,28 @@ class CollectionViewController: UICollectionViewController, NSFetchedResultsCont
         }
     }
     
+    
+    //MARK: Search options (doesn't filter results)
+    
+    
+    func setupSearchController() {
+        let searchController = UISearchController(searchResultsController: nil)
+        searchController.searchResultsUpdater = self
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = "Search"
+        navigationItem.searchController = searchController
+    }
+    
+
+    func updateSearchResults(for searchController: UISearchController) {
+        guard let text = searchController.searchBar.text else { return }
+        currentSearchText = text
+        setupFetchedResultsController()
+        
+    }
+    
+
+    //MARK: Segues
     
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
