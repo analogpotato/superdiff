@@ -92,6 +92,7 @@ class CollectionViewController: UICollectionViewController, NSFetchedResultsCont
         
     }
     
+    //MARK: Add New User function
     
     func addNewUser(with name: String, with subtitle: String) {
         let user = Test(context: container.viewContext)
@@ -170,15 +171,25 @@ class CollectionViewController: UICollectionViewController, NSFetchedResultsCont
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if !isEditing != true {
 
+            
+            
             if let deleteItems = dataSource.itemIdentifier(for: indexPath) {
-
+                
+                let commit = users[indexPath.row]
+                container.viewContext.delete(commit)
+                users.remove(at: indexPath.row)
+                
+                saveChangesToDisk()
+                
                 var currentSnapshot = dataSource.snapshot()
                 currentSnapshot.deleteItems([deleteItems])
                 dataSource.apply(currentSnapshot)
-                print(deleteItems)
+                print("this is the deleted array of objects \(deleteItems)")
 
 
             }
+            
+            
         } else {
             return
         }
