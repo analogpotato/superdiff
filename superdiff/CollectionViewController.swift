@@ -23,6 +23,8 @@ class CollectionViewController: UICollectionViewController, NSFetchedResultsCont
     var container = NSPersistentContainer (name: "superdiff")
     var fetchedResultsController: NSFetchedResultsController<Test>!
     
+    let searchController = UISearchController(searchResultsController: nil)
+    
     @IBOutlet weak var deleteButton: UIBarButtonItem!
     
     var currentSearchText = ""
@@ -30,11 +32,16 @@ class CollectionViewController: UICollectionViewController, NSFetchedResultsCont
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        
         configureDataSource()
+
         setupCoreData()
+         setupSearchController()
         setupFetchedResultsController()
         
-        setupSearchController()
+    
+        
+       
         
         navigationItem.leftBarButtonItem = editButtonItem
 //        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
@@ -47,6 +54,8 @@ class CollectionViewController: UICollectionViewController, NSFetchedResultsCont
             users = try managedContext.fetch(fetchRequest)
 //            saveChangesToDisk()
             setupSnapshot()
+            
+            
         } catch {
             print("fetch failed")
         }
@@ -67,9 +76,11 @@ class CollectionViewController: UICollectionViewController, NSFetchedResultsCont
             
             cell.isInEditingMode = self.isEditing
             
+            print ("cell dequeued")
             return cell
         }
         setupSnapshot()
+        print("configure data source")
     }
     @IBAction func deleteButtonPressed(_ sender: Any) {
     }
@@ -116,6 +127,7 @@ class CollectionViewController: UICollectionViewController, NSFetchedResultsCont
         diffableDataSourceSnapshot.appendSections([.main])
         diffableDataSourceSnapshot.appendItems(users)
         dataSource?.apply(self.diffableDataSourceSnapshot)
+        print("snapshot setup")
     }
     
 //    func createSnapshot (from users: [User]) {
@@ -128,12 +140,14 @@ class CollectionViewController: UICollectionViewController, NSFetchedResultsCont
     func setupCoreData() {
         container.loadPersistentStores { storeDescription, error in
             self.container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+            print("core data setup")
             if let error = error {
                 print ("Failed to load database: \(error)")
             }
         }
     }
     
+    //MARK: Fetched Results Controller setup
     
     func setupFetchedResultsController() {
         let request = Test.createfetchRequest()
@@ -148,10 +162,12 @@ class CollectionViewController: UICollectionViewController, NSFetchedResultsCont
         
         fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: container.viewContext, sectionNameKeyPath: nil, cacheName: nil)
         fetchedResultsController.delegate = self
-        
+        print("fetched results setup")
         do {
             try fetchedResultsController.performFetch()
+            
             setupSnapshot()
+            
         } catch {
             print ("Fetch failed")
         }
@@ -208,11 +224,11 @@ class CollectionViewController: UICollectionViewController, NSFetchedResultsCont
     
     
     func setupSearchController() {
-        let searchController = UISearchController(searchResultsController: nil)
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.placeholder = "Search"
         navigationItem.searchController = searchController
+        print("search configured")
     }
     
 
@@ -220,7 +236,7 @@ class CollectionViewController: UICollectionViewController, NSFetchedResultsCont
         guard let text = searchController.searchBar.text else { return }
         currentSearchText = text
         setupFetchedResultsController()
-        
+        print(text)
     }
     
 
