@@ -33,33 +33,34 @@ class CollectionViewController: UICollectionViewController, NSFetchedResultsCont
         super.viewDidLoad()
 
         
-        configureDataSource()
+      
 
         setupCoreData()
-         setupSearchController()
         setupFetchedResultsController()
+        setupSearchController()
         
-    
-        
+        configureDataSource()
+                    saveChangesToDisk()
+
        
         
         navigationItem.leftBarButtonItem = editButtonItem
 //        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
 //            return
 //        }
-        let managedContext = container.viewContext
-        let fetchRequest = NSFetchRequest<Test>(entityName: "Test")
-        
-        do {
-            users = try managedContext.fetch(fetchRequest)
-//            saveChangesToDisk()
-            setupSnapshot()
-            
-            
-        } catch {
-            print("fetch failed")
-        }
-        
+//        let managedContext = container.viewContext
+//        let fetchRequest = NSFetchRequest<Test>(entityName: "Test")
+//
+//        do {
+//            users = try managedContext.fetch(fetchRequest)
+//
+//            setupSnapshot()
+//
+//
+//        } catch {
+//            print("fetch failed")
+//        }
+//
         print(users)
     }
     
@@ -125,7 +126,7 @@ class CollectionViewController: UICollectionViewController, NSFetchedResultsCont
     func setupSnapshot() {
         diffableDataSourceSnapshot = NSDiffableDataSourceSnapshot<Section, Test>()
         diffableDataSourceSnapshot.appendSections([.main])
-        diffableDataSourceSnapshot.appendItems(users)
+        diffableDataSourceSnapshot.appendItems(fetchedResultsController.fetchedObjects ?? [])
         dataSource?.apply(self.diffableDataSourceSnapshot)
         print("snapshot setup")
     }
@@ -154,7 +155,7 @@ class CollectionViewController: UICollectionViewController, NSFetchedResultsCont
         request.fetchBatchSize = 30
         
         if !currentSearchText.isEmpty {
-            request.predicate = NSPredicate(format: "name CONTAINS[c] %@", currentSearchText)
+            request.predicate = NSPredicate(format: "name CONTAINS[c] %@ OR subtitle CONTAINS[c] %@",currentSearchText, currentSearchText)
         }
         
         let sort = NSSortDescriptor (key: "name", ascending: true)
@@ -180,7 +181,7 @@ class CollectionViewController: UICollectionViewController, NSFetchedResultsCont
         
         do {
             try container.viewContext.save()
-//            print("saved \(users)")
+          print("save changed")
         } catch {
             print ("Failed to save changes to disk: \(error)")
         }
