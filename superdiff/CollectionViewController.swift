@@ -83,9 +83,11 @@ class CollectionViewController: UICollectionViewController, NSFetchedResultsCont
         setupSnapshot()
         print("configure data source")
     }
+    
+    //MARK: Delete button
+    
     @IBAction func deleteButtonPressed(_ sender: Any) {
     }
-
 
     
     
@@ -194,30 +196,24 @@ class CollectionViewController: UICollectionViewController, NSFetchedResultsCont
     //MARK: Delete section (needs work - move to button)
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+      
         if !isEditing != true {
-
             
-            
-            if let deleteItems = dataSource.itemIdentifier(for: indexPath) {
-                
-                let commit = users[indexPath.row]
-                container.viewContext.delete(commit)
-                users.remove(at: indexPath.row)
-                
-                saveChangesToDisk()
-                
-                var currentSnapshot = dataSource.snapshot()
-                currentSnapshot.deleteItems([deleteItems])
-                dataSource.apply(currentSnapshot)
-                print("this is the deleted array of objects \(deleteItems)")
+            guard let item = self.dataSource?.itemIdentifier(for: indexPath) else { return }
+            var snapshot = dataSource.snapshot()
 
+            container.viewContext.delete(item)
+            saveChangesToDisk()
+            snapshot.deleteItems([item])
 
-            }
-            
+            dataSource.apply(snapshot, animatingDifferences: true)
             
         } else {
             return
         }
+        
+
+     
     }
     
     
