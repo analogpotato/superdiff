@@ -43,8 +43,8 @@ class CollectionViewController: UICollectionViewController, NSFetchedResultsCont
        
         
         navigationItem.leftBarButtonItem = editButtonItem
-        deleteButton.isEnabled = false
-        deleteButton.tintColor = .clear
+        deleteButton.isEnabled = true
+//        deleteButton.tintColor = .clear
         
 //        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
 //            return
@@ -88,29 +88,21 @@ class CollectionViewController: UICollectionViewController, NSFetchedResultsCont
     //MARK: Delete button
     
     @IBAction func deleteButtonPressed(_ sender: Any) {
- 
-        guard let indexPaths = collectionView.indexPathsForSelectedItems else { return }
-        for indexPath in indexPaths {
-             let cell = collectionView.cellForItem(at: indexPath) as! CollectionViewCell
-            if cell.isSelected == true {
+        
+        
+        guard let sel = self.collectionView.indexPathsForSelectedItems, sel.count > 0 else { return }
+        let rowlds = sel.map {
+            self.dataSource.itemIdentifier(for: $0)
+        } .compactMap {$0}
+        var snap = self.dataSource.snapshot()
+        snap.deleteItems(rowlds)
 
-                            guard let item = self.dataSource?.itemIdentifier(for: indexPath) else { return }
-                            var snapshot = dataSource.snapshot()
-
-                            container.viewContext.delete(item)
-                            saveChangesToDisk()
-                            snapshot.deleteItems([item])
-
-                            dataSource.apply(snapshot, animatingDifferences: true)
-                deleteButton.isEnabled = false
-                deleteButton.tintColor = .clear
-                
-                isEditing = false
-            } else {
-                return
-            }
-
+        for index in rowlds {
+            container.viewContext.delete(index)
         }
+        saveChangesToDisk()
+        self.dataSource.apply(snap, animatingDifferences: true)
+
 
     }
 
@@ -118,16 +110,14 @@ class CollectionViewController: UICollectionViewController, NSFetchedResultsCont
     
     override func setEditing(_ editing: Bool, animated: Bool) {
         super.setEditing(editing, animated: animated)
-        
+
         collectionView.allowsMultipleSelection = editing
         let indexPaths = collectionView.indexPathsForVisibleItems
         for indexPath in indexPaths {
             let cell = collectionView.cellForItem(at: indexPath) as! CollectionViewCell
             cell.isInEditingMode = editing
-            
-
         }
-        
+
     }
     
     //MARK: Add New User function
@@ -217,14 +207,26 @@ class CollectionViewController: UICollectionViewController, NSFetchedResultsCont
     //MARK: Delete section (needs work - move to button)
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-      
-        if !isEditing {
-            deleteButton.isEnabled = false
-            deleteButton.tintColor = .clear
-        } else {
-            deleteButton.isEnabled = true
-            deleteButton.tintColor = .systemRed
-        }
+        
+//        let cell = collectionView.cellForItem(at: indexPath) as! CollectionViewCell
+//        if !isEditing != true {
+//
+//            guard let item = self.dataSource?.itemIdentifier(for: indexPath) else { return }
+//            var snapshot = dataSource.snapshot()
+//
+//
+//            container.viewContext.delete(item)
+//            saveChangesToDisk()
+//            snapshot.deleteItems([item])
+//            print (item)
+//
+//            dataSource.apply(snapshot, animatingDifferences: true)
+//
+//
+//        } else {
+//            return
+//        }
+        
     }
     
     override func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
