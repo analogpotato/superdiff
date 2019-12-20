@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="VBs-dI-088">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="VBs-dI-088">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -44,18 +44,20 @@
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gUB-Jr-Tx5">
-                                            <rect key="frame" x="58" y="71" width="34" height="21"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <nil key="textColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BdH-3G-XTO">
+                                            <rect key="frame" x="76" y="74" width="20" height="22"/>
+                                            <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <state key="normal" image="checkmark.circle" catalog="system"/>
+                                        </button>
                                     </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="trailing" secondItem="BdH-3G-XTO" secondAttribute="trailing" constant="4" id="7XI-VF-qbz"/>
+                                        <constraint firstAttribute="bottom" secondItem="BdH-3G-XTO" secondAttribute="bottom" constant="4" id="K9V-TD-Zsu"/>
+                                    </constraints>
                                 </collectionViewCellContentView>
                                 <color key="backgroundColor" systemColor="secondarySystemBackgroundColor" red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <connections>
-                                    <outlet property="checkmarkLabel" destination="gUB-Jr-Tx5" id="bzB-gP-D3l"/>
+                                    <outlet property="checkmarkButton" destination="BdH-3G-XTO" id="U0N-uU-SN0"/>
                                     <outlet property="subtitleText" destination="1ws-Ae-sKD" id="xCs-vI-7UO"/>
                                     <outlet property="userText" destination="wrC-Wx-Bow" id="UcN-eG-maT"/>
                                 </connections>
@@ -73,7 +75,7 @@
                                     <segue destination="a2W-od-eKz" kind="presentation" identifier="AddView" id="M0G-RQ-lQ5"/>
                                 </connections>
                             </barButtonItem>
-                            <barButtonItem systemItem="trash" id="Iv0-Hd-43P">
+                            <barButtonItem enabled="NO" systemItem="trash" id="Iv0-Hd-43P">
                                 <color key="tintColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <connections>
                                     <action selector="deleteButtonPressed:" destination="1aG-xz-XKk" id="aD0-uJ-mxn"/>
@@ -155,6 +157,7 @@
         <!--Navigation Controller-->
         <scene sceneID="0Vq-2w-YlP">
             <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="WbZ-CC-Xhx" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="a2W-od-eKz" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="0ZP-EJ-tHU">
@@ -166,9 +169,11 @@
                         <segue destination="Hs8-ap-Ggk" kind="relationship" relationship="rootViewController" id="deD-5D-CpC"/>
                     </connections>
                 </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="WbZ-CC-Xhx" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2485.507246376812" y="124.55357142857142"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="checkmark.circle" catalog="system" width="64" height="60"/>
+    </resources>
 </document>

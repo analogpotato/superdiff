@@ -11,20 +11,25 @@ import UIKit
 class CollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var userText: UILabel!
-    @IBOutlet weak var checkmarkLabel: UILabel!
-    
     @IBOutlet weak var subtitleText: UILabel!
+    @IBOutlet weak var checkmarkButton: UIButton!
     
     var isInEditingMode: Bool = false {
         didSet {
-            checkmarkLabel.isHidden = !isInEditingMode
+            checkmarkButton.isHidden = !isInEditingMode
         }
     }
     
     override var isSelected: Bool {
         didSet {
-            if isInEditingMode {
-                checkmarkLabel.text = isSelected ? "y" : ""
+            guard isInEditingMode else { return }
+            
+            if isSelected {
+                checkmarkButton.setImage(UIImage(systemName: "checkmark.circle.fill"), for: .normal)
+                checkmarkButton.tintColor = .systemBlue
+            } else {
+                checkmarkButton.setImage(UIImage(systemName: "checkmark.circle"), for: .normal)
+                checkmarkButton.tintColor = .lightGray
             }
         }
     }

@@ -15,7 +15,16 @@ class CollectionViewController: UICollectionViewController, NSFetchedResultsCont
     
     let alertService = AlertService()
     
-    var users: [Test] = []
+    var users: [Test] = [] {
+        didSet {
+            if users.count == 0 {
+                navigationItem.leftBarButtonItem = nil
+                self.setEditing(false, animated: true)
+            } else {
+                navigationItem.leftBarButtonItem = editButtonItem
+            }
+        }
+    }
     
     var dataSource: UICollectionViewDiffableDataSource<Section, Test>!
     var diffableDataSourceSnapshot = NSDiffableDataSourceSnapshot<Section, Test> ()
@@ -39,11 +48,7 @@ class CollectionViewController: UICollectionViewController, NSFetchedResultsCont
         
         configureDataSource()
         saveChangesToDisk()
-
-       
         
-        navigationItem.leftBarButtonItem = editButtonItem
-        deleteButton.isEnabled = true
 //        deleteButton.tintColor = .clear
         
 //        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
@@ -88,29 +93,33 @@ class CollectionViewController: UICollectionViewController, NSFetchedResultsCont
     //MARK: Delete button
     
     @IBAction func deleteButtonPressed(_ sender: Any) {
-        
-        
         guard let sel = self.collectionView.indexPathsForSelectedItems, sel.count > 0 else { return }
+        
         let rowlds = sel.map {
             self.dataSource.itemIdentifier(for: $0)
         } .compactMap {$0}
+        
         var snap = self.dataSource.snapshot()
         snap.deleteItems(rowlds)
 
         for index in rowlds {
             container.viewContext.delete(index)
         }
+        
         saveChangesToDisk()
         self.dataSource.apply(snap, animatingDifferences: true)
-
-
+        
+        updateDeleteButton()
     }
 
-    
+    func updateDeleteButton() {
+        let selectedItems = collectionView.indexPathsForSelectedItems
+        deleteButton.isEnabled = selectedItems != nil ? selectedItems!.count > 0 : false
+    }
     
     override func setEditing(_ editing: Bool, animated: Bool) {
         super.setEditing(editing, animated: animated)
-
+        
         collectionView.allowsMultipleSelection = editing
         let indexPaths = collectionView.indexPathsForVisibleItems
         for indexPath in indexPaths {
@@ -118,6 +127,7 @@ class CollectionViewController: UICollectionViewController, NSFetchedResultsCont
             cell.isInEditingMode = editing
         }
 
+        updateDeleteButton()
     }
     
     //MARK: Add New User function
@@ -137,10 +147,13 @@ class CollectionViewController: UICollectionViewController, NSFetchedResultsCont
     
     
     func setupSnapshot() {
+        users = fetchedResultsController.fetchedObjects ?? []
+        
         diffableDataSourceSnapshot = NSDiffableDataSourceSnapshot<Section, Test>()
         diffableDataSourceSnapshot.appendSections([.main])
-        diffableDataSourceSnapshot.appendItems(fetchedResultsController.fetchedObjects ?? [])
+        diffableDataSourceSnapshot.appendItems(users)
         dataSource?.apply(self.diffableDataSourceSnapshot)
+        
         print("snapshot setup")
     }
     
@@ -207,6 +220,7 @@ class CollectionViewController: UICollectionViewController, NSFetchedResultsCont
     //MARK: Delete section (needs work - move to button)
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        updateDeleteButton()
         
 //        let cell = collectionView.cellForItem(at: indexPath) as! CollectionViewCell
 //        if !isEditing != true {
@@ -230,9 +244,7 @@ class CollectionViewController: UICollectionViewController, NSFetchedResultsCont
     }
     
     override func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
-        if let selectedItems = collectionView.indexPathsForSelectedItems, selectedItems.count == 0 {
-            deleteButton.isEnabled = false
-        }
+        updateDeleteButton()
     }
     
     
